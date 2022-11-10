@@ -1,0 +1,13 @@
+body header {
+  color: white;
+  font-size: 25px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #4068e9;
+  padding: 15px; }
+
+header ul li a {
+  text-decoration: none;
+  color: white; }
+
+header ul li {
+  list-style-type: none; }
