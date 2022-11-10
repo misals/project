@@ -1,18 +1,40 @@
-body header {
-    color: white;
-    font-size: 25px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: rgb(64, 104, 233);
-    padding: 15px;
-    
-}
+#layout-header{
+    nav{
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+        background: #2196f3;
+        color: white;
+        box-shadow: 1px 1px 1px 1px lightgrey;
+        text-decoration: none;
 
-header ul li a {
-    text-decoration: none;
-    color: white;  
-    
-}
+        .mini-logo{
+            p{
+                margin: 5px;
+                font-size: 1.4rem;
+                font-weight: bold;
+                text-decoration: none;
+            }
+        }
 
-header ul li {
-    list-style-type: none; 
+        .auth-links{
+            ul{
+                margin: 5% 5px;
+                display: flex;
+                text-decoration: none;
+                list-style-type: none;  
+
+                li{
+                    margin-right: 10px;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        a{
+            color: white;
+            text-decoration: none;
+        }
+
+    }
 }

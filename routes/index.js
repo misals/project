@@ -5,6 +5,7 @@ const homecontroller = require('../controllers/home_controller');
 
 router.get('/', homecontroller.home);
 router.use('/users', require('./users'));
+router.use('/posts', require('./posts'));
 
 // For any other routes, access from here
 // router.use('/routerName', require('./routerFile'));
