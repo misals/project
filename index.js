@@ -18,7 +18,7 @@ app.use(sassMiddleware({
     src : './assets/scss',
     dest : './assets/css',
     debug : true,
-    outputStyle : 'extended',
+    outputStyle : 'expanded',
     prefix : '/css'
 
 }));
