@@ -10,6 +10,7 @@ const { urlencoded } = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
+const passportJWT = require('./config/passport-jwt-strategy');
 const { Store } = require('express-session');
 const MongoStore = require("connect-mongo");
 const sassMiddleware = require('node-sass-middleware');
