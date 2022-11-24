@@ -12,12 +12,15 @@ module.exports.home = async function(req, res){
         .populate('user')
         .populate({
             path: 'comments',
-            populate: {
-                path: 'user'
-            },
-            populate: {
-                path: 'likes'
-            }
+            // populate: {
+            //     path: 'user'
+            // },
+            // populate: {
+            //     path: 'likes'
+            // }
+            populate : [
+                'user', 'likes'
+            ]
         }).populate('likes');
 
     
@@ -28,6 +31,10 @@ module.exports.home = async function(req, res){
             posts:  posts,
             all_users: users
         });
+
+        // return res.status(200).json({
+        //     posts,users
+        // })
 
     }catch(err){
         console.log('Error', err);

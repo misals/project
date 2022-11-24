@@ -37,7 +37,7 @@ module.exports.destroy = async function(req, res){
             });
         }else{
             return res.json(401, {
-                message : "You cannot delete this post!"
+                message: "You cannot delete this post!"
             });
         }
 
