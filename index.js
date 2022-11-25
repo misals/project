@@ -70,7 +70,7 @@ app.use(session({
         maxAge : (1000 * 60 * 100)
     },
     store: MongoStore.create({
-        mongoUrl : "mongodb://0.0.0.0:27017/social_media",
+        mongoUrl : "mongodb+srv://Suraj-Misal:12345@codeial-blog-project.ozufbbw.mongodb.net/test?retryWrites=true&w=majority",
          autoremove : "disabled",
      },function(err) {
          console.log("error at mongo store",err || "connection established to store cookie");
