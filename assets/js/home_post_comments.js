@@ -1,31 +1,114 @@
+// Let's implement this via classes
 
-const User = require('../../../models/user');
-const jwt = require('jsonwebtoken');
-const env = require('../../../config/environment');
+// this class would be initialized for every post on the page
+// 1. When the page loads
+// 2. Creation of every post dynamically via AJAX
+
+class PostComments{
+    // constructor is used to initialize the instance of the class whenever a new instance is created
+    constructor(postId){
+        this.postId = postId;
+        this.postContainer = $(`#post-${postId}`);
+        this.newCommentForm = $(`#post-${postId}-comments-form`);
+
+        this.createComment(postId);
+
+        let self = this;
+        // call for all the existing comments
+        $(' .delete-comment-button', this.postContainer).each(function(){
+            self.deleteComment($(this));
+        });
+    }
 
 
-module.exports.createSession = async function(req, res){
+    createComment(postId){
+        let pSelf = this;
+        this.newCommentForm.submit(function(e){
+            e.preventDefault();
+            let self = this;
 
-    try{
-        let user = await User.findOne({email: req.body.email});
+            $.ajax({
+                type: 'post',
+                url: '/comments/create',
+                data: $(self).serialize(),
+                success: function(data){
+                    let newComment = pSelf.newCommentDom(data.data.comment);
+                    $(`#post-comments-${postId}`).prepend(newComment);
+                    pSelf.deleteComment($(' .delete-comment-button', newComment));
 
-        if (!user || user.password != req.body.password){
-            return res.json(422, {
-                message: "Invalid username or password"
+                    // CHANGE :: enable the functionality of the toggle like button on the new comment
+                    new ToggleLike($(' .toggle-like-button', newComment));
+                    new Noty({
+                        theme: 'relax',
+                        text: "Comment published!",
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+                        
+                    }).show();
+
+                }, error: function(error){
+                    console.log(error.responseText);
+                }
             });
-        }
 
-        return res.json(200, {
-            message: 'Sign in successful, here is your token, please keep it safe!',
-            data:  {
-                token: jwt.sign(user.toJSON(), env.jwt_secret, {expiresIn:  '100000'})
-            }
-        })
 
-    }catch(err){
-        console.log('********', err);
-        return res.json(500, {
-            message: "Internal Server Error"
+        });
+    }
+
+
+    newCommentDom(comment){
+        // CHANGE :: show the count of zero likes on this comment
+
+        return $(`<li id="comment-${ comment._id }">
+                        <p>
+                            
+                            <small>
+                                <a class="delete-comment-button" href="/comments/destroy/${comment._id}">X</a>
+                            </small>
+                            
+                            ${comment.content}
+                            <br>
+                            <small>
+                                ${comment.user.name}
+                            </small>
+                            <small>
+                            
+                                <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Comment">
+                                    0 Likes
+                                </a>
+                            
+                            </small>
+
+                        </p>    
+
+                </li>`);
+    }
+
+
+    deleteComment(deleteLink){
+        $(deleteLink).click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'get',
+                url: $(deleteLink).prop('href'),
+                success: function(data){
+                    $(`#comment-${data.data.comment_id}`).remove();
+
+                    new Noty({
+                        theme: 'relax',
+                        text: "Comment Deleted",
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+                        
+                    }).show();
+                },error: function(error){
+                    console.log(error.responseText);
+                }
+            });
+
         });
     }
 }
