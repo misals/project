@@ -56,7 +56,7 @@ app.set('layout extractScripts', true);
 
 // SetUp the view engine
 app.set('view engine', 'ejs');
-app.set('views', '/views');
+app.set('views', 'views');
 
 
 // mongo store is used to store the session cookie in the db
